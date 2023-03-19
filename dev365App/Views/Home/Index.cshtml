@@ -1,0 +1,49 @@
+﻿@using Microsoft.Graph;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div>My User</div>
+<div>@ViewData["MyUserName"]</div>
+<div>Claims Role</div>
+<div>@ViewData["MyClaimRole"]</div>
+<div>Application Roles</div>
+@{
+    var roles = ViewData["MyRole"] as IEnumerable<AppRoleAssignment>;
+    @if (roles?.Count() > 0)
+    {
+        @foreach (var role in roles)
+        {
+            <div class="row">
+                <div class="col-md">@role.ResourceDisplayName</div>
+                <div class="col-md">@role.PrincipalDisplayName</div>
+            </div>
+        }
+    }
+}
+<div>Member Of</div>
+@{
+    var memberOf = ViewData["MyGroups"] as RoleGroups;
+
+    <div class="container">
+        <div class="row border-1">
+            <div class="col-md"><b>Role</b></div>
+            <div class="col-md"><b>Group</b></div>
+        </div>
+        @if (memberOf != null && memberOf.Groups != null)
+        {
+            @foreach (var groupDetail in memberOf.Groups)
+            {
+                <div class="row">
+                    <div class="col-md">@memberOf.Role</div>
+                    <div class="col-md">@groupDetail.Name</div>
+                </div>
+            }
+        }
+    </div>
+}
